@@ -14,13 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   score.init({
-    studentId: DataTypes.STRING,
-    subjectId: DataTypes.STRING,
+    studentId: DataTypes.INTEGER,
+    subjectId: DataTypes.INTEGER,
     score: DataTypes.INTEGER,
     outOf: DataTypes.INTEGER,
     percent: DataTypes.DECIMAL,
     grade: DataTypes.STRING,
-    examinedBy: DataTypes.STRING,
+    examinedBy: DataTypes.INTEGER,
     examId: DataTypes.STRING,
   }, {
     sequelize,

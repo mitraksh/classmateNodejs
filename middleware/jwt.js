@@ -2,12 +2,13 @@ const jwt = require('jsonwebtoken')
 const {UnauthoirzedError} = require('../errors')
 
 class JwtToken{
-    constructor(id,firstName,lastName,email,isAdmin){
+    constructor(id,firstName,lastName,email,isAdmin,subjectID){
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
         this.email = email
         this.isAdmin = isAdmin
+        this.subjectID = subjectID
     }
     generate(){
         const token = jwt.sign(JSON.stringify(this), "my_jwt_secret_key");

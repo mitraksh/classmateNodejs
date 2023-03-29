@@ -29,7 +29,7 @@ module.exports = {
       subject_module_id: {
         allowNull: false,
         unique: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       is_admin: {
         allowNull: false,

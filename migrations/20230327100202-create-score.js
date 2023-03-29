@@ -4,18 +4,17 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('scores', {
       id: {
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       student_id: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       subject_id: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       score: {
         allowNull: true,
@@ -35,11 +34,11 @@ module.exports = {
       },
       examined_by:{
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       exam_id:{
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       created_at: {
         allowNull: false,

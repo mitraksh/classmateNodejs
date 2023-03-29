@@ -6,14 +6,14 @@ module.exports = {
     return await queryInterface.bulkInsert('scores',[       
       {
         id: 1,
-        student_id: 'RG115',
-        subject_id: 'CH112',
+        student_id: 1,
+        subject_id: 1,
         score: 90,
         out_of: 100,
         percent:90.00,
         grade: 'A',
         examined_by: 1,
-        exam_id: 'EX112',
+        exam_id: 1,
         created_at: new Date(),
         updated_at: new Date(),
       },

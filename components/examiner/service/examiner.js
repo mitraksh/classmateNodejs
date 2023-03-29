@@ -1,9 +1,10 @@
 const Examiner = require('../../../view/examiner')
 const db = require('../../../models')
 const {BadRequest} = require("../../../errors")
+const Score = require('../../../view/score')
+const { BAD_REQUEST } = require('http-status-codes')
 
 const loginService = async (email,password) => {
-    const transaction = await db.sequelize.transaction()
     try {
       const checkExaminerLogin = await Examiner.examinerLogin(email,password)
       return checkExaminerLogin
@@ -74,11 +75,65 @@ const deleteExaminerService = async (examinerID) => {
     }
 }
 
+const giveScoresService = async (score,studentID,subjectID,examinerID,percent,grade) => {
+    const transaction = await db.sequelize.transaction()
+    try {
+        // console.log('score',score);
+        score["student_id"] = parseInt(studentID)
+        score["subject_id"] = subjectID
+        score["examined_by"] = examinerID
+        score["percent"] = percent
+        score["grade"] = grade
+        console.log('score',score);
+        await Score.doNotUpdateScoreCard(score)
+        await Score.checkScoreCard(studentID,subjectID)
+        const giveScores = await Score.giveScore(transaction,score)
+        await transaction.commit()
+        return giveScores
+    } catch (error) {
+        console.error(error)
+        throw new BadRequest(error)
+    }
+}
+
+const getStudentScoresService = async (studentID,examinedBy) => {
+    try {
+        // console.log('studentID',typeof parseInt(studentID));
+        // console.log('examinedBy',typeof examinedBy);
+        const verifyExaminer = await Examiner.getExaminersByID(examinedBy)
+        verifyExaminer.subject
+        const getStudentScores = await Score.getScoreByStudentID(studentID,examinedBy)
+        return getStudentScores
+    } catch (error) {
+        console.error(error)
+        throw new BadRequest(error)
+    }
+}
+
+const getExaminerScoreCardService = async (examiner) => {
+    try {
+        // console.log('studentID',typeof parseInt(studentID));
+        // console.log('examinedBy',typeof examinedBy);
+        // const verifyExaminer = await Examiner.getExaminersByID(examinedBy)
+        // if(verifyExaminer.subject == subjectId){
+        //     throw new BadRequest('')
+        // } 
+        const getStudentScores = await Score.getScoreByExaminerID(examiner)
+        return getStudentScores
+    } catch (error) {
+        console.error(error)
+        throw new BadRequest(error)
+    }
+}
+
 module.exports = {
     loginService,
     createExaminerService,
     getAllExaminerService,
     getAllExaminerByIDService,
     updateExaminerService,
-    deleteExaminerService
+    deleteExaminerService,
+    giveScoresService,
+    getStudentScoresService,
+    getExaminerScoreCardService
 }

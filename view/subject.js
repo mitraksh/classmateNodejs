@@ -21,13 +21,29 @@ class Subject{
 
         static async uniqueValues(moduleId){
             try {
-                const uniqueEmail = await db.subject.findOne({
+                const uniqueModuleID = await db.subject.findOne({
                     where:{
                         module_id: moduleId
                     },
                 })
-                if(uniqueEmail){
+                if(uniqueModuleID){
                     throw new BadRequest('This module id already exists, please try again')
+                }
+            } catch (error) {
+                console.error(error)
+                throw new BadRequest(error)
+            }
+        }
+
+        static async checkSubject(subjectID){
+            try {
+                const uniqueModuleID = await db.subject.findOne({
+                    where:{
+                        id: subjectID
+                    },
+                })
+                if(!uniqueModuleID){
+                    throw new BadRequest('No Subject found with id: '+subjectID)
                 }
             } catch (error) {
                 console.error(error)
@@ -47,7 +63,7 @@ class Subject{
             }
         }
 
-        static async getAllSubject(){
+        static async getAllSubjects(){
             try {
                 const getAllSubject = await db.subject.findAll()
                 if(!getAllSubject){

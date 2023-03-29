@@ -15,14 +15,14 @@ const verifyStudentLogin = async (req, res, next) => {
     const {email,password} = req.body
     const login = await loginService(email,password)
     if(login){
-      const jwt = new JwtToken(login.id, login.first_name, login.last_name, login.email, null)
+      const jwt = new JwtToken(login.id, login.firstName, login.lastName, login.email, null, null)
       const token = jwt.generate()
       console.log(token)
       res.cookie("authorization", token)
-      res.status(StatusCodes.OK).send('You have successfully logged in.\n'+ token)
+      res.status(StatusCodes.OK).send('You have successfully logged in ✅.\n'+ token)
     }else if(login == null){
       res.status(StatusCodes.EXPECTATION_FAILED).json(login)
-      throw new UnauthoirzedError('Student not found')
+      throw new UnauthoirzedError('Student not found ❌')
     }
 
   } catch (error) {
@@ -41,7 +41,7 @@ const createStudent = async (req,res,next) => {
         res.status(StatusCodes.OK).json(postStudent);
         return postStudent
       }else{
-        res.status(StatusCodes.FORBIDDEN).send('Only admin can create an student')
+        res.status(StatusCodes.FORBIDDEN).send('Only admin can create a student ❌')
       }
      
     } catch (error) {
@@ -58,7 +58,7 @@ const getAllStudents = async (req,res,next) => {
       res.status(StatusCodes.OK).json(getStudent);
       return getStudent
     }else{
-      res.status(StatusCodes.FORBIDDEN).send('Only admin can access all students')
+      res.status(StatusCodes.FORBIDDEN).send('Only admin can access all students ❌')
     }
   } catch (error) {
     console.error(error)
@@ -74,7 +74,7 @@ const getStudentByID = async (req,res,next) => {
       res.status(StatusCodes.OK).json(getStudentbyID);
       return getStudentbyID
     }else{
-      res.status(StatusCodes.FORBIDDEN).send('Only admin can access students')
+      res.status(StatusCodes.FORBIDDEN).send('Only admin can access students ❌')
     }
   } catch (error) {
     console.error(error)
@@ -91,7 +91,7 @@ const updateStudent = async (req,res,next) => {
       res.status(StatusCodes.OK).send('Student updated successfully.✅');
       return updateStudent
     }else{
-      res.status(StatusCodes.FORBIDDEN).send('Only admin can update students')
+      res.status(StatusCodes.FORBIDDEN).send('Only admin can update students ❌')
     }
   } catch (error) {
     console.error(error)
@@ -107,7 +107,7 @@ const deleteStudent = async (req,res,next) => {
       res.status(StatusCodes.OK).send('Student deleted successfully.✅');
       return deleteStudent
     }else{
-      res.status(StatusCodes.FORBIDDEN).send('Only admin can update students')
+      res.status(StatusCodes.FORBIDDEN).send('Only admin can delete students ❌')
     }
   } catch (error) {
     console.error(error)

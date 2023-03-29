@@ -15,7 +15,7 @@ const loginService = async (email,password) => {
 const createStudentService = async (student) => {
     const transaction = await db.sequelize.transaction()
     try {
-        // await Student.uniqueValues(student.email,student.subjectID)
+        await Student.uniqueValues(student.email)
         // await Student.checkSubject(student.subjectID)
         const postStudent = await student.createStudent(transaction)
         await transaction.commit()
@@ -49,7 +49,7 @@ const getStudentByIDService = async (studentID) => {
 const updateStudentService = async (studentDetails,studentID) => {
     const transaction = await db.sequelize.transaction()
     try {
-        await Student.checkSubject(studentDetails.subjectId)
+        // await Student.checkSubject(studentDetails.subjectId)
         const updateStudent = await Student.updateStudent(transaction,studentDetails,studentID)
         await transaction.commit()
         return updateStudent
